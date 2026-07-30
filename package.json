@@ -1,0 +1,9 @@
+{
+  "name": "backtoyou",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev"
+  }
+}
