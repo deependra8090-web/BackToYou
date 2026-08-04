@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const itemSchema = new Schema(
   {
@@ -94,6 +95,15 @@ const itemSchema = new Schema(
       lng: Number,
     },
 
+    // AI-generated image tags from Cloudinary auto_tagging
+    aiTags: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+    ],
+
     // moderation
     isFlagged: {
       type: Boolean,
@@ -111,5 +121,5 @@ const itemSchema = new Schema(
   }
 );
 
-const Item = model("Item", itemSchema);
+const Item = mongoose.models.Item || mongoose.model("Item", itemSchema);
 module.exports = Item;

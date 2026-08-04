@@ -1,10 +1,12 @@
 const Item = require("../../items/items.schema");
 const Match = require("../matches.schema");
 const matchEngine = require("../../helpers/matchItem.helper");
+const User = require("../../models/users.schema");
+const { sendMatchFoundEmail } = require("../../services/email.service");
 
 async function runMatchProvider(itemId) {
   // 1. Fetch item
-  const item = await Item.findById(itemId);
+  const item = await Item.findById(itemId).populate("postedBy", "email firstname lastname");
 
   if (!item) {
     throw new Error("Item not found");
@@ -15,14 +17,14 @@ async function runMatchProvider(itemId) {
     throw new Error("Item is not eligible for matching");
   }
 
-  // 3. Run matching engine
+  // 3. Run AI matching engine
   const results = await matchEngine(item);
 
   if (!Array.isArray(results) || results.length === 0) {
     return [];
   }
 
-  // 4. Normalize + clamp scores (FIX YOUR 125 BUG HERE)
+  // 4. Normalize + clamp scores
   const normalizedResults = results.map((m) => ({
     ...m,
     matchScore: Math.max(0, Math.min(100, Number(m.matchScore) || 0)),
@@ -54,6 +56,46 @@ async function runMatchProvider(itemId) {
 
   // 7. Insert matches
   const created = await Match.insertMany(filteredMatches);
+
+  // 8. Send email notifications (non-blocking)
+  try {
+    const appUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+
+    for (const match of created) {
+      // Get both items with their owners
+      const [lostItem, foundItem] = await Promise.all([
+        Item.findById(match.lostItemId).populate("postedBy", "email firstname"),
+        Item.findById(match.foundItemId).populate("postedBy", "email firstname"),
+      ]);
+
+      // Notify the lost-item owner
+      if (lostItem?.postedBy?.email) {
+        sendMatchFoundEmail({
+          userEmail: lostItem?.postedBy?.email,
+          userName: lostItem?.postedBy?.firstname || "there",
+          lostItemTitle: lostItem?.title || "a lost item",
+          foundItemTitle: foundItem?.title || "a found item",
+          matchScore: match.matchScore,
+          appUrl,
+        }).catch((err) => console.error("Email error:", err.message));
+      }
+
+      // Notify the found-item owner too
+      if (foundItem?.postedBy?.email && foundItem?.postedBy?.email !== lostItem?.postedBy?.email) {
+        sendMatchFoundEmail({
+          userEmail: foundItem?.postedBy?.email,
+          userName: foundItem?.postedBy?.firstname || "there",
+          lostItemTitle: lostItem?.title || "a lost item",
+          foundItemTitle: foundItem?.title || "a found item",
+          matchScore: match.matchScore,
+          appUrl,
+        }).catch((err) => console.error("Email error:", err.message));
+      }
+    }
+  } catch (emailErr) {
+    // Email errors should never block match creation
+    console.error("Email notification error:", emailErr.message);
+  }
 
   return created;
 }

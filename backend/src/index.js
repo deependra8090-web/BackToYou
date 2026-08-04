@@ -21,14 +21,78 @@ if (envResult.error) {
 
 console.log(`Loaded environment variables from: ${baseEnvFile}${envResult.error ? "" : ` and ${envFile}`}`);
 
+const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
+const { Server } = require("socket.io");
+const jwt = require("jsonwebtoken");
+
 const configureApp = require("./settings/config.js");
 const seedAdmin  = require("./seeders/seedAdmin.js");
 
 const app = express();
+const server = http.createServer(app);
+
 const port = parseInt(process.env.PORT) || 3001;
 
+// ─── Socket.io Setup ──────────────────────────────────────────────────────────
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:3000",
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+// Authenticate socket connections via JWT
+io.use((socket, next) => {
+  const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.split(" ")[1];
+  if (!token) {
+    return next(new Error("Authentication error: No token provided"));
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.user = decoded;
+    next();
+  } catch (err) {
+    next(new Error("Authentication error: Invalid token"));
+  }
+});
+
+io.on("connection", (socket) => {
+  const userId = socket.user?.sub;
+  console.log(`🔌 Socket connected: ${userId}`);
+
+  // Join a conversation room
+  socket.on("join_conversation", (conversationId) => {
+    socket.join(conversationId);
+    console.log(`User ${userId} joined conversation: ${conversationId}`);
+  });
+
+  // Leave a conversation room
+  socket.on("leave_conversation", (conversationId) => {
+    socket.leave(conversationId);
+  });
+
+  // Typing indicator
+  socket.on("typing", ({ conversationId, isTyping }) => {
+    socket.to(conversationId).emit("user_typing", { userId, isTyping });
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`🔌 Socket disconnected: ${userId}`);
+  });
+});
+
+// Make io available to route handlers via req.io
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 //  Parsing request body
 app.use(express.json());
@@ -40,21 +104,20 @@ async function bootstrap() {
       process.env.DATABASE_URL,
       { dbName: process.env.DATABASE_NAME }
     );
-    console.log("Connnected To MongoDB");
+    console.log("Connected To MongoDB");
 
     // Seed default admin once — reuses the existing connection
     await seedAdmin();
 
-    app.listen(port, () => {
-      console.log(`App listening on port ${port}`);
+    server.listen(port, () => {
+      console.log(`🚀 BackToYou server listening on port ${port}`);
+      console.log(`💬 Socket.io ready`);
     });
 
   } catch (error) {
     console.error(error);
-    /** An exit code of 1 typically indicates that there was an error or abnormal termination of the program, which is often used to signal failure in scenarios where the program encounters critical issues that prevent normal operation. */
     process.exit(1);
   }
 }
 
 bootstrap();
-

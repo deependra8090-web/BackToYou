@@ -7,6 +7,7 @@ import {
   Shield, Flag, CheckCircle, Clock, XCircle,
   Layers, ChevronRight
 } from "lucide-react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
 // ─── Constants ────────────────────────────────────────────────────────
 const CATEGORY_EMOJI = {
@@ -289,13 +290,24 @@ const ItemDetail = () => {
             {/* ── Coordinates ── */}
             {item.coordinates?.lat && item.coordinates?.lng && (
               <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6">
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-4">
                   <MapPin size={18} className="text-indigo-500" />
-                  <h2 className="font-semibold text-gray-700">Coordinates</h2>
+                  <h2 className="font-semibold text-gray-700">Location Map</h2>
                 </div>
-                <p className="text-sm text-gray-500">
-                  {item.coordinates.lat}, {item.coordinates.lng}
-                </p>
+                <div className="h-64 w-full rounded-2xl overflow-hidden border border-gray-200">
+                  <MapContainer
+                    center={[item.coordinates.lat, item.coordinates.lng]}
+                    zoom={15}
+                    scrollWheelZoom={false}
+                    className="h-full w-full"
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[item.coordinates.lat, item.coordinates.lng]} />
+                  </MapContainer>
+                </div>
               </div>
             )}
 

@@ -8,6 +8,7 @@ const itemRouter = require("../items/items.router.js");
 const adminRouter = require("../admin/admin.router.js");
 const matchRouter = require("../matches/matches.router.js");
 const claimRouter = require("../claims/claims.router.js");
+const chatRouter = require("../chat/chat.router.js");
 const responseFormatter = require("../middleware/responseFormatter.middleware.js");
 const { StatusCodes } = require("http-status-codes");
 const expressWinstonLogger = require("../middleware/expressWinston.middleware.js");
@@ -93,6 +94,7 @@ app.use("/", itemRouter);
 app.use("/", adminRouter);
 app.use("/", matchRouter);
 app.use("/", claimRouter);
+app.use("/", chatRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 console.log(swaggerSpecs);

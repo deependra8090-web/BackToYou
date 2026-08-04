@@ -13,6 +13,7 @@ import Profile from "./pages/myProfile/myprofile.jsx";
 import About from "./pages/about/about.jsx";
 import Contact from "./pages/contact/contact.jsx";
 import ItemDetail from "./pages/itemDetails/itemDetails.jsx";
+import Chat from "./pages/chat/chat.jsx";
 
 import AdminDashboard from "./pages/admin/admin.jsx";
 import AnalyticsOverview from "./pages/admin/analytics.jsx";
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
       },
 
       {

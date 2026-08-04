@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const claimSchema = new Schema(
   {
@@ -76,5 +77,5 @@ const claimSchema = new Schema(
   }
 );
 
-const Claim = model("Claim", claimSchema);
+const Claim = mongoose.models.Claim || mongoose.model("Claim", claimSchema);
 module.exports = Claim;

@@ -1,16 +1,21 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 text-white px-6 py-12">
 
+      <div className="max-w-5xl mx-auto mb-6">
+        <Link to="/" className="text-white/60 hover:text-white text-sm transition">← Back to Home</Link>
+      </div>
+
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <h1 className="text-4xl md:text-5xl font-black mb-4">
           Contact Us
         </h1>
         <p className="text-white/80 text-lg">
-          Have questions, found an issue, or need help? Reach out to us — we’re here for students and faculty.
+          Have questions, found an issue, or need help? We're here for you.
         </p>
       </div>
 
@@ -22,7 +27,6 @@ const Contact = () => {
           <h2 className="text-2xl font-semibold mb-6">📩 Send a Message</h2>
 
           <form className="space-y-4">
-            
             <div>
               <label className="block text-sm mb-1">Full Name</label>
               <input
@@ -71,7 +75,6 @@ const Contact = () => {
 
         {/* Contact Info */}
         <div className="flex flex-col justify-center space-y-6">
-          
           <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-lg">
             <h3 className="text-xl font-semibold mb-2">📍 Campus Office</h3>
             <p className="text-white/80">
@@ -83,8 +86,8 @@ const Contact = () => {
           <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-lg">
             <h3 className="text-xl font-semibold mb-2">📧 Email Support</h3>
             <p className="text-white/80">
-              support@campuslf.com <br />
-              response within 24 hours
+              support@backtoyou.app <br />
+              Response within 24 hours
             </p>
           </div>
 
@@ -95,14 +98,13 @@ const Contact = () => {
               For urgent lost item cases
             </p>
           </div>
-
         </div>
 
       </div>
 
       {/* Footer */}
-      <div className="mt-20 text-center text-white/70">
-        © 2026 Campus Lost & Found System
+      <div className="mt-20 text-center text-white/50 text-sm">
+        © 2026 BackToYou — Lost &amp; Found, Smarter.
       </div>
 
     </div>

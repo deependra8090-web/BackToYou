@@ -19,8 +19,28 @@ async function acceptMatchProvider(matchId, userId) {
   }
 
   match.status = "accepted";
-
   await match.save();
+
+  // Create Conversation between the two users
+  const lostUser = match.lostItemId?.postedBy?.toString();
+  const foundUser = match.foundItemId?.postedBy?.toString();
+
+  if (lostUser && foundUser && lostUser !== foundUser) {
+    const Conversation = require("../../models/conversation.schema");
+    const existingConv = await Conversation.findOne({
+      matchId: match._id,
+    });
+
+    if (!existingConv) {
+      await Conversation.create({
+        participants: [lostUser, foundUser],
+        matchId: match._id,
+        lastMessage: "Match accepted! You can now chat.",
+        lastMessageAt: new Date(),
+        isActive: true,
+      });
+    }
+  }
 
   return match;
 }
