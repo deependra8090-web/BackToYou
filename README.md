@@ -35,26 +35,27 @@ A full-stack web application that helps students and staff report, find, and rec
 ## 🛠 Tech Stack
 
 ### Frontend
-| Tool | Purpose |
-|---|---|
-| React 19 + Vite | UI framework and dev server |
-| TanStack Query v5 | Server state management |
-| React Router v7 | Client-side routing |
-| Tailwind CSS | Styling |
-| React Hook Form + Zod | Form validation |
-| Lucide React | Icons |
-| Sonner | Toast notifications |
-| js-cookie | Cookie management |
+
+| Tool                  | Purpose                     |
+| --------------------- | --------------------------- |
+| React 19 + Vite       | UI framework and dev server |
+| TanStack Query v5     | Server state management     |
+| React Router v7       | Client-side routing         |
+| Tailwind CSS          | Styling                     |
+| React Hook Form + Zod | Form validation             |
+| Lucide React          | Icons                       |
+| Sonner                | Toast notifications         |
+| js-cookie             | Cookie management           |
 
 ### Backend
-| Tool | Purpose |
-|---|---|
-| Node.js + Express | Server framework |
-| MongoDB + Mongoose | Database |
-| JWT | Authentication |
-| bcrypt | Password hashing |
-| Multer | File/image upload |
-| express-validator | Request validation |
-| Winston | Logging |
-| http-status-codes | HTTP status helpers |
 
+| Tool               | Purpose             |
+| ------------------ | ------------------- |
+| Node.js + Express  | Server framework    |
+| MongoDB + Mongoose | Database            |
+| JWT                | Authentication      |
+| bcrypt             | Password hashing    |
+| Multer             | File/image upload   |
+| express-validator  | Request validation  |
+| Winston            | Logging             |
+| http-status-codes  | HTTP status helpers |
