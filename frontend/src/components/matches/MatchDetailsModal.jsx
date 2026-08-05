@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const MatchDetailsModal = ({ match, onClose }) => {
   if (!match) return null;

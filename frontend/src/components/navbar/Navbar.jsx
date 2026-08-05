@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { Menu, X, LayoutDashboard, Search, Package,
-         Compass, Link as LinkIcon, FileText, User, LogOut, MessageCircle, Map } from "lucide-react";
+         Compass, Link as LinkIcon, FileText, User, LogOut, MessageCircle } from "lucide-react";
 import Cookies from "js-cookie";
 
 const BackToYouLogo = () => (

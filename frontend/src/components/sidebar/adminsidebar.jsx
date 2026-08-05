@@ -1,7 +1,6 @@
-import React from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { Settings, LayoutDashboard, Search, Compass,
-         Link as LinkIcon, FileText, User, UsersRound, LogOut } from "lucide-react";
+         FileText, User, UsersRound, LogOut } from "lucide-react";
 import Cookies from "js-cookie";
 
 const menuItems = [

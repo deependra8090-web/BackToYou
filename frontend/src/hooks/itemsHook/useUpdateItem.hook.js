@@ -115,7 +115,7 @@ export function useUpdateItem() {
       return { previousItems };
     },
 
-    onError: (_err, { itemId }, context) => {
+    onError: (_err, { itemId: _ }, context) => {  // eslint-disable-line no-unused-vars
       if (context?.previousItems) {
         context.previousItems.forEach(([queryKey, data]) => {
           queryClient.setQueryData(queryKey, data);
@@ -123,10 +123,10 @@ export function useUpdateItem() {
       }
     },
 
-    onSettled: (_data, _err, { itemId }) => {
+    onSettled: (_data, _err, variables) => {
       // Invalidate both the list and the single item
       queryClient.invalidateQueries({ queryKey: ["items"] });
-      queryClient.invalidateQueries({ queryKey: ["item", itemId] });
+      queryClient.invalidateQueries({ queryKey: ["item", variables?.itemId] });
     },
   });
 }

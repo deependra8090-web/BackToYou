@@ -1,4 +1,4 @@
-import React from "react";
+
 import Sidebar from "../../components/sidebar/sidebar.jsx";
 import { useGetMyClaims } from "../../hooks/claimsHook/useGetMyClaims.hook.js";
 import Navbar from "../../components/navbar/navbar.jsx";

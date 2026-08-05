@@ -38,18 +38,22 @@ export default function AdminSignup() {
     form.reset();
   }
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isSuccess) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSuccessMessage("Account created successfully! Redirecting to login…");
       setTimeout(() => navigate("/login"), 2000);
     }
-  }, [isSuccess]);
+  }, [isSuccess, navigate]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isError) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setServerError("User may already exist or something went wrong.");
     }
-  }, [isError]);
+  }, [isError, setServerError]);
 
   const inputCls =
     "w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:ring-2 focus:ring-indigo-400 bg-white disabled:opacity-50 transition";

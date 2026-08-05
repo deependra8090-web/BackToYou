@@ -48,6 +48,7 @@ const updateProfile = async (payload) => {
     body = form;
   } else {
     headers["Content-Type"] = "application/json";
+    // eslint-disable-next-line no-unused-vars
     const { file, ...rest } = payload;
     body = JSON.stringify(rest);
   }

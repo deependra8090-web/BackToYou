@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
 import Navbar from "../../components/navbar/navbar.jsx";
 import { UserRound, Pencil, Lock, CheckCircle, XCircle } from "lucide-react";
@@ -28,7 +29,7 @@ function Skeleton({ className = "" }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────
 const MyProfile = () => {
-  const { data, isLoading, isError } = useGetProfile();
+  const { data, isLoading } = useGetProfile();
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { mutate: updatePassword, isPending: isChangingPw } = useUpdatePassword();
 
@@ -57,6 +58,7 @@ const MyProfile = () => {
   // Populate form when profile loads
   useEffect(() => {
     if (profile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProfileForm({
         firstname: profile.firstname ?? "",
         lastname:  profile.lastname  ?? "",

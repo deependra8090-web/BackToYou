@@ -30,8 +30,10 @@ export default function Signup() {
     form.reset();
   }
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
   useEffect(() => {
     if (isSuccess) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSuccessMessage("Account created successfully! You can now login.");
       
       // optional auto redirect after 2 sec
@@ -41,8 +43,10 @@ export default function Signup() {
     }
   }, [isSuccess]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isError) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setServerError("User may already exist or something went wrong.");
     }
   }, [isError]);

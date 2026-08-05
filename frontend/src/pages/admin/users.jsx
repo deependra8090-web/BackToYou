@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import AdminSidebar from "../../components/sidebar/adminsidebar";
 import AdminNavbar from "../../components/navbar/Adminnavbar";
 import { useFetchUsers } from "../../hooks/adminHook/useFetchUsers";
@@ -128,7 +128,7 @@ const UsersPage = () => {
     }) : "—";
 
   const timeAgo = (dateStr) => {
-    const diff  = Date.now() - new Date(dateStr).getTime();
+    const diff  = new Date().getTime() - new Date(dateStr).getTime();
     const hours = Math.floor(diff / 3600000);
     const days  = Math.floor(hours / 24);
     if (days > 0)  return `${days}d ago`;

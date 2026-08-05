@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { LayoutDashboard, Search, Package,
          Compass, Link as LinkIcon, FileText, User, LogOut, MessageCircle } from "lucide-react";

@@ -1,4 +1,4 @@
-import React from "react";
+
 import AdminSidebar from "../../components/sidebar/adminsidebar";
 
 const LogsPage = () => {

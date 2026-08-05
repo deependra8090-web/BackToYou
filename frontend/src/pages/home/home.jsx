@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import FloatingLines from "../../components/floatingLines/FloatingLines.jsx";
 

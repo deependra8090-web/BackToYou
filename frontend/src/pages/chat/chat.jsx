@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import { io } from "socket.io-client";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
@@ -81,8 +81,7 @@ export default function Chat() {
     scrollToBottom();
   }, [messages]);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
+  const sendMessage = async () => {
     if (!inputMsg.trim() || !selectedConv) return;
 
     try {
@@ -104,7 +103,7 @@ export default function Chat() {
   };
 
   const parseJwt = (t) => {
-    try { return JSON.parse(atob(t.split('.')[1])); } catch (e) { return null; }
+    try { return JSON.parse(atob(t.split('.')[1])); } catch (_) { return null; }  // eslint-disable-line no-unused-vars
   };
   const myId = parseJwt(token)?.sub;
 

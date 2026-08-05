@@ -83,10 +83,6 @@ console.log("matches:", matches);
 
             {matches.map((match) => {
 
-            const canAccept =
-              (match.isLostUser && !match.lostUserAccepted) ||
-              (match.isFoundUser && !match.foundUserAccepted);
-
             return (
 
               <div

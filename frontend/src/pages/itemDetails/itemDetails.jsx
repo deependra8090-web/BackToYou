@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
 import { useGetItemById } from "../../hooks/itemsHook/useGetItemById.hook";
 import {
-  ArrowLeft, MapPin, Calendar, Tag, User,
+  ArrowLeft, MapPin, Calendar, Tag,
   Shield, Flag, CheckCircle, Clock, XCircle,
   Layers, ChevronRight
 } from "lucide-react";

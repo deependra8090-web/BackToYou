@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
 import { useGetMyItems } from "../../hooks/itemsHook/useGetMyItems.hook";
 import { useNavigate } from "react-router";

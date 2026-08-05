@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useCreateClaim } from "../../hooks/claimsHook/useCreateClaim.hook";
 
 const CreateClaimModal = ({ match, onClose }) => {
