@@ -109,3 +109,8 @@
 ::1 - - [04/Aug/2026:18:27:34 +0000] "POST /getmyitems HTTP/1.1" 200 814 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
 ::1 - - [04/Aug/2026:18:27:51 +0000] "GET /items/6a6d930075436f4aeea5ad45 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
 ::1 - - [04/Aug/2026:18:27:59 +0000] "POST /getmyitems HTTP/1.1" 200 814 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [05/Aug/2026:06:42:04 +0000] "POST /login HTTP/1.1" 200 413 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [05/Aug/2026:06:42:05 +0000] "GET /users/dashboard HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [05/Aug/2026:06:42:16 +0000] "GET /items/6a6d90be75436f4aeea5ad43 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [05/Aug/2026:06:42:25 +0000] "GET /items/6a6d930075436f4aeea5ad45 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [05/Aug/2026:06:43:11 +0000] "GET /users/dashboard HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
