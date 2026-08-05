@@ -2,7 +2,7 @@
 import { Link } from "react-router";
 import Cookies from "js-cookie";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
-import Navbar from "../../components/navbar/Navbar.jsx";
+import Navbar from "../../components/navbar/navbar.jsx";
 import { UserRound, Compass, BaggageClaim, Search } from "lucide-react";
 import { useUserDashboard } from "../../hooks/usersHook/useUserDashboard.js";
 
