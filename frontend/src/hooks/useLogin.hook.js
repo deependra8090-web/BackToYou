@@ -11,7 +11,8 @@ const loginUser = async (user) => {
     body: JSON.stringify(user),
   });
   if (!response.ok) {
-    throw new Error("Network response was not ok");
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Network response was not ok");
   }
   return response.json();
 };
