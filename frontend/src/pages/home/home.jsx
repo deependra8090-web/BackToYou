@@ -3,12 +3,11 @@ import { Link } from "react-router";
 import FloatingLines from "../../components/floatingLines/FloatingLines.jsx";
 
 const BackToYouLogo = () => (
-  <svg width="32" height="32" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="14" cy="14" r="13" fill="rgba(255,255,255,0.15)" />
-    <path d="M9 14 C9 10.5 11.5 8 15 8 C18.5 8 21 10.5 21 14" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-    <path d="M6.5 11.5 L9 14 L11.5 11.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    <circle cx="14" cy="19" r="2.5" fill="white" />
-  </svg>
+  <img
+    src="/logo.png"
+    alt="BackToYou Logo"
+     className="w-4 h-4 sm:w-8 sm:h-8 rounded-full object-cover mr-2"
+  />
 );
 
 const MobileMenu = ({ open, onClose }) => (
