@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  let apiUrl = env.VITE_API_URL || 'http://localhost:3001/';
+  let apiUrl = env.VITE_API_URL || 'http://localhost:3000/';
   if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
     apiUrl = 'https://' + apiUrl;
   }

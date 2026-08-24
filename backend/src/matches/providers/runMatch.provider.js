@@ -1,7 +1,7 @@
 const Item = require("../../items/items.schema");
 const Match = require("../matches.schema");
 const matchEngine = require("../../helpers/matchItem.helper");
-const User = require("../../models/users.schema");
+const User = require("../../users/users.schema.js");
 const { sendMatchFoundEmail } = require("../../services/email.service");
 
 async function runMatchProvider(itemId) {
