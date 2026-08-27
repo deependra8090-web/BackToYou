@@ -117,3 +117,4 @@
 ::1 - - [05/Aug/2026:09:14:24 +0000] "GET / HTTP/1.1" 404 68 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
 ::1 - - [05/Aug/2026:09:14:25 +0000] "GET / HTTP/1.1" 404 68 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
 ::1 - - [05/Aug/2026:09:14:25 +0000] "GET /favicon.ico HTTP/1.1" 404 68 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+::1 - - [27/Aug/2026:16:41:05 +0000] "POST /login HTTP/1.1" 200 388 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.9168"
