@@ -64,6 +64,7 @@ export default function Login() {
             <input
               type="email"
               placeholder="Email"
+              autoComplete="username"
               {...form.register("email")}
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -79,6 +80,7 @@ export default function Login() {
             <input
               type="password"
               placeholder="Password"
+              autoComplete="current-password"
               {...form.register("password")}
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

@@ -3,7 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 
 // Simulated function to post data to an API endpoint
 const loginUser = async (user) => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}login`, {
+  const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+  const response = await fetch(`${baseUrl}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +13,8 @@ const loginUser = async (user) => {
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Network response was not ok");
+    const errorMessage = errorData?.error?.message || errorData?.message || "Network response was not ok";
+    throw new Error(errorMessage);
   }
   return response.json();
 };
