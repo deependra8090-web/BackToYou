@@ -1,8 +1,14 @@
 const User = require("../users.schema.js");
 
 async function getUserByEmail(email) {
+  if (!email) {
+    const err = new Error("Email is required");
+    err.statusCode = 400;
+    throw err;
+  }
   // Let DB errors propagate so the caller can handle them properly
-  const user = await User.findOne({ email: email });
+  const cleanEmail = String(email).trim().toLowerCase();
+  const user = await User.findOne({ email: cleanEmail });
 
   if (!user) {
     const err = new Error("User not found");
