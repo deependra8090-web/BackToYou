@@ -1,10 +1,11 @@
 
 import AdminSidebar from "../../components/sidebar/adminsidebar";
+import AdminNavbar from "../../components/navbar/Adminnavbar.jsx";
 
 const LogsPage = () => {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
-
+      <AdminNavbar />
       {/* Sidebar */}
       <AdminSidebar />
 

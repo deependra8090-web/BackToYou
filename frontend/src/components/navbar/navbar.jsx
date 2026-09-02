@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
-import { Menu, X, LayoutDashboard, Search, Package,
-         Compass, Link as LinkIcon, FileText, User, LogOut, MessageCircle } from "lucide-react";
-import Cookies from "js-cookie";
+import { Menu, X, LayoutDashboard, PlusCircle, Package,
+         Compass, Sparkles, FileText, User, LogOut, MessageCircle, Shield } from "lucide-react";
+ import Cookies from "js-cookie";
 
 const BackToYouLogo = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,20 +20,23 @@ const BackToYouLogo = () => (
 );
 
 const menuItems = [
-  { name: "Dashboard",      path: "/dashboard",  icon: LayoutDashboard },
-  { name: "Lost/Found",     path: "/lostitems",  icon: Search          },
-  { name: "Found Items",    path: "/founditems", icon: Package         },
-  { name: "Browse Items",   path: "/browseitems",icon: Compass         },
-  { name: "My Matches",     path: "/mymatches",  icon: LinkIcon        },
-  { name: "My Claims",      path: "/myclaims",   icon: FileText        },
-  { name: "Chat",           path: "/chat",       icon: MessageCircle   },
-  { name: "Profile",        path: "/profile",    icon: User            },
+  { name: "Dashboard",       path: "/dashboard",  icon: LayoutDashboard },
+  { name: "Report Item",     path: "/lostitems",  icon: PlusCircle      },
+  { name: "My Items",        path: "/founditems", icon: Package         },
+  { name: "Browse Registry", path: "/browseitems",icon: Compass         },
+  { name: "AI Matches",      path: "/mymatches",  icon: Sparkles        },
+  { name: "My Claims",       path: "/myclaims",   icon: FileText        },
+  { name: "Messages",        path: "/chat",       icon: MessageCircle   },
+  { name: "My Profile",      path: "/profile",    icon: User            },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const navigate        = useNavigate();
   const location        = useLocation();
+
+  const cookieUser = JSON.parse(Cookies.get("user") || "{}");
+  const isAdmin = cookieUser.role === "admin" || cookieUser.role === "superadmin";
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -46,13 +49,13 @@ const Navbar = () => {
   return (
     <>
       {/* ── Top bar — visible only on mobile (md:hidden) ── */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-indigo-700 to-purple-700 text-white shadow-lg">
+      <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-indigo-700 via-indigo-800 to-purple-800 text-white shadow-lg">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo */}
-          <div className="flex items-center gap-2 text-lg font-bold">
+          <Link to="/dashboard" className="flex items-center gap-2 text-lg font-bold">
             <BackToYouLogo />
             <span className="font-black text-white tracking-tight">BackToYou</span>
-          </div>
+          </Link>
 
           {/* Hamburger */}
           <button
@@ -80,9 +83,9 @@ const Navbar = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-sm font-medium ${
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-sm font-semibold ${
                     active
-                      ? "bg-white/25 text-white"
+                      ? "bg-white text-indigo-700 shadow-sm"
                       : "hover:bg-white/15 text-white/80"
                   }`}
                 >
@@ -92,10 +95,21 @@ const Navbar = () => {
               );
             })}
 
+            {isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-sm font-semibold bg-amber-400 text-gray-900 shadow-sm mt-2"
+              >
+                <Shield size={17} />
+                <span>Admin Portal</span>
+              </Link>
+            )}
+
             {/* Logout */}
             <button
               onClick={() => { setOpen(false); handleLogout(); }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/15 text-white/80 transition text-sm font-medium"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-500/20 text-white/80 hover:text-red-200 transition text-sm font-semibold mt-2"
             >
               <LogOut size={17} />
               Logout

@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import Sidebar from "../../components/sidebar/sidebar.jsx";
+import Navbar from "../../components/navbar/navbar.jsx";
+import CreateClaimModal from "../../components/claims/CreateClaimModal.jsx";
 import { useGetItemById } from "../../hooks/itemsHook/useGetItemById.hook";
+import Cookies from "js-cookie";
 import {
   ArrowLeft, MapPin, Calendar, Tag,
   Shield, Flag, CheckCircle, Clock, XCircle,
-  Layers, ChevronRight
+  Layers, ChevronRight, MessageSquare, BaggageClaim
 } from "lucide-react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
@@ -105,6 +108,10 @@ const ItemDetail = () => {
   const { id }       = useParams();
   const navigate     = useNavigate();
   const [imgError, setImgError] = useState(false);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+
+  const cookieUser = JSON.parse(Cookies.get("user") || "{}");
+  const currentUserId = cookieUser?._id || cookieUser?.id;
 
   const { data, isLoading, isError, error } = useGetItemById(id);
 
@@ -112,6 +119,7 @@ const ItemDetail = () => {
   const item    = data?.data?.item    ?? null;
   const matches = Array.isArray(data?.data?.matches) ? data.data.matches : [];
 
+  const isOwner = item?.postedBy?._id === currentUserId || item?.postedBy === currentUserId;
   const status     = STATUS_CONFIG[item?.status] ?? STATUS_CONFIG.pending;
   const StatusIcon = status.icon;
   const emoji      = CATEGORY_EMOJI[item?.category] ?? "📦";
@@ -128,11 +136,19 @@ const ItemDetail = () => {
       })
     : "—";
 
+  // Clean image URL helper
+  const cleanImageURL = (url) => {
+    if (!url) return null;
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    return `/${url.replace(/^\/+/, "").replace(/\\/g, "/")}`;
+  };
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+      <Navbar />
       <Sidebar />
 
-      <main className="flex-1 p-6 max-w-5xl">
+      <main className="flex-1 p-4 md:p-6 max-w-5xl mt-14 md:mt-0">
 
         {/* ── Back button ── */}
         <button
@@ -153,20 +169,20 @@ const ItemDetail = () => {
           <div className="space-y-6">
 
             {/* ── Hero Section ── */}
-            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg overflow-hidden">
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg overflow-hidden border border-white/60">
               <div className="flex flex-col lg:flex-row">
 
                 {/* Image / Emoji */}
-                <div className="lg:w-2/5 shrink-0">
+                <div className="lg:w-2/5 shrink-0 bg-gray-50">
                   {item.imageURL && !imgError ? (
                     <img
-                      src={item.imageURL?.replace(/\\/g, "/")}
+                      src={cleanImageURL(item.imageURL)}
                       alt={item.title}
                       onError={() => setImgError(true)}
-                      className="w-full h-64 lg:h-full object-cover"
+                      className="w-full h-64 lg:h-full min-h-[260px] object-cover"
                     />
                   ) : (
-                    <div className={`w-full h-64 lg:h-full min-h-64 flex items-center justify-center text-8xl ${
+                    <div className={`w-full h-64 lg:h-full min-h-[260px] flex items-center justify-center text-8xl ${
                       item.type === "lost"
                         ? "bg-gradient-to-br from-red-50 to-rose-100"
                         : "bg-gradient-to-br from-green-50 to-emerald-100"
@@ -199,7 +215,7 @@ const ItemDetail = () => {
                       )}
                       {item.verifiedByAdmin && (
                         <span className="flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-indigo-100 text-indigo-600 border border-indigo-200">
-                          <Shield size={12} /> Verified
+                          <Shield size={12} /> Admin Verified
                         </span>
                       )}
                     </div>
@@ -209,7 +225,7 @@ const ItemDetail = () => {
                     </h1>
 
                     {item.description && (
-                      <p className="text-gray-500 mt-3 text-sm leading-relaxed">
+                      <p className="text-gray-600 mt-3 text-sm leading-relaxed">
                         {item.description}
                       </p>
                     )}
@@ -238,12 +254,12 @@ const ItemDetail = () => {
                     <div className="mt-6 pt-5 border-t border-gray-100 flex items-center gap-3">
                       {item.postedBy.profileImage ? (
                         <img
-                          src={item.postedBy.profileImage}
+                          src={cleanImageURL(item.postedBy.profileImage)}
                           alt={item.postedBy.firstname}
-                          className="w-10 h-10 rounded-full object-cover"
+                          className="w-10 h-10 rounded-full object-cover shadow-sm"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow-sm">
                           {item.postedBy.firstname?.[0]?.toUpperCase()}
                         </div>
                       )}
@@ -251,11 +267,12 @@ const ItemDetail = () => {
                         <p className="text-xs text-gray-400">Reported by</p>
                         <p className="text-sm font-semibold text-gray-700">
                           {item.postedBy.firstname} {item.postedBy.lastname}
+                          {isOwner && " (You)"}
                         </p>
                       </div>
                       {item.verifiedBy && (
                         <div className="ml-auto text-right">
-                          <p className="text-xs text-gray-400">Verified by</p>
+                          <p className="text-xs text-gray-400">Verified by Admin</p>
                           <p className="text-sm font-semibold text-indigo-600">
                             {item.verifiedBy.firstname} {item.verifiedBy.lastname}
                           </p>
@@ -269,10 +286,10 @@ const ItemDetail = () => {
 
             {/* ── Keywords ── */}
             {Array.isArray(item.keywords) && item.keywords.length > 0 && (
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6">
+              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6 border border-white/60">
                 <div className="flex items-center gap-2 mb-4">
                   <Tag size={18} className="text-indigo-500" />
-                  <h2 className="font-semibold text-gray-700">Keywords</h2>
+                  <h2 className="font-semibold text-gray-700">Keywords &amp; Identifiers</h2>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {item.keywords.map((kw) => (
@@ -289,12 +306,12 @@ const ItemDetail = () => {
 
             {/* ── Coordinates ── */}
             {item.coordinates?.lat && item.coordinates?.lng && (
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6">
+              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6 border border-white/60">
                 <div className="flex items-center gap-2 mb-4">
                   <MapPin size={18} className="text-indigo-500" />
                   <h2 className="font-semibold text-gray-700">Location Map</h2>
                 </div>
-                <div className="h-64 w-full rounded-2xl overflow-hidden border border-gray-200">
+                <div className="h-64 w-full rounded-2xl overflow-hidden border border-gray-200 shadow-inner">
                   <MapContainer
                     center={[item.coordinates.lat, item.coordinates.lng]}
                     zoom={15}
@@ -311,16 +328,16 @@ const ItemDetail = () => {
               </div>
             )}
 
-            {/* ── Matches ── */}
+            {/* ── Potential Matches ── */}
             {matches.length > 0 && (
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6">
+              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow p-6 border border-white/60">
                 <div className="flex items-center gap-2 mb-5">
                   <Layers size={18} className="text-indigo-500" />
                   <h2 className="font-semibold text-gray-700">
-                    Potential Matches
+                    AI-Matched Items
                   </h2>
-                  <span className="ml-auto text-xs bg-indigo-100 text-indigo-600 font-semibold px-2 py-0.5 rounded-full">
-                    {matches.length}
+                  <span className="ml-auto text-xs bg-indigo-100 text-indigo-600 font-semibold px-2.5 py-0.5 rounded-full">
+                    {matches.length} {matches.length === 1 ? "match" : "matches"}
                   </span>
                 </div>
                 <div className="space-y-3">
@@ -337,11 +354,24 @@ const ItemDetail = () => {
 
             {/* ── Action Buttons ── */}
             <div className="flex flex-wrap gap-3 pb-6">
-              {item.status === "approved" && item.type === "lost" && (
-                <button className="flex-1 sm:flex-none px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl font-semibold hover:opacity-90 transition shadow-lg shadow-indigo-200 text-sm">
-                  🙋 Claim This Item
+              {item.status === "approved" && !isOwner && (
+                <button
+                  onClick={() => setIsClaimModalOpen(true)}
+                  className="flex-1 sm:flex-none px-7 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold hover:opacity-95 transition shadow-lg shadow-indigo-200 text-sm flex items-center justify-center gap-2"
+                >
+                  <BaggageClaim size={18} />
+                  <span>Claim This Item</span>
                 </button>
               )}
+
+              <Link
+                to="/chat"
+                className="flex-1 sm:flex-none px-6 py-3 bg-indigo-50 text-indigo-700 rounded-2xl font-semibold hover:bg-indigo-100 transition text-sm flex items-center justify-center gap-2 border border-indigo-200"
+              >
+                <MessageSquare size={18} />
+                <span>Open Chat</span>
+              </Link>
+
               <button
                 onClick={() => navigate(-1)}
                 className="flex-1 sm:flex-none px-6 py-3 bg-white text-gray-600 rounded-2xl font-semibold hover:bg-gray-50 transition border border-gray-200 text-sm"
@@ -351,6 +381,14 @@ const ItemDetail = () => {
             </div>
 
           </div>
+        )}
+
+        {/* ── Claim Modal ── */}
+        {isClaimModalOpen && (
+          <CreateClaimModal
+            item={item}
+            onClose={() => setIsClaimModalOpen(false)}
+          />
         )}
       </main>
     </div>

@@ -13,10 +13,10 @@ async function handleGetConversations(req, res) {
       .populate("matchId", "lostItemId foundItemId matchScore")
       .sort({ lastMessageAt: -1 });
 
-    return res.status(StatusCodes.OK).json({ success: true, data: conversations });
+    return res.status(StatusCodes.OK).json(conversations);
   } catch (error) {
     console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 }
 
@@ -30,7 +30,7 @@ async function handleGetMessages(req, res) {
     // Verify user is participant
     const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
     if (!conversation) {
-      return res.status(StatusCodes.FORBIDDEN).json({ success: false, message: "Access denied" });
+      return res.status(StatusCodes.FORBIDDEN).json({ message: "Access denied" });
     }
 
     const messages = await Message.find({ conversationId })
@@ -45,10 +45,10 @@ async function handleGetMessages(req, res) {
       { isRead: true, readAt: new Date() }
     );
 
-    return res.status(StatusCodes.OK).json({ success: true, data: messages.reverse() });
+    return res.status(StatusCodes.OK).json(messages.reverse());
   } catch (error) {
     console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 }
 
@@ -59,12 +59,12 @@ async function handleSendMessage(req, res) {
     const { content } = req.body;
 
     if (!content || !content.trim()) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: "Message content is required" });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "Message content is required" });
     }
 
     const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
     if (!conversation) {
-      return res.status(StatusCodes.FORBIDDEN).json({ success: false, message: "Access denied" });
+      return res.status(StatusCodes.FORBIDDEN).json({ message: "Access denied" });
     }
 
     const message = await Message.create({
@@ -86,10 +86,10 @@ async function handleSendMessage(req, res) {
       req.io.to(conversationId).emit("new_message", populated);
     }
 
-    return res.status(StatusCodes.CREATED).json({ success: true, data: populated });
+    return res.status(StatusCodes.CREATED).json(populated);
   } catch (error) {
     console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 }
 

@@ -87,13 +87,20 @@ function ItemCard({ item, onApprove, onReject, isApprovingId, isRejectingId }) {
         <div className="flex gap-5">
           {item.imageURL ? (
             <img
-              src={`/${item.imageURL.replace(/\\/g, "/")}`}
+              src={
+                item.imageURL.startsWith("http://") || item.imageURL.startsWith("https://")
+                  ? item.imageURL
+                  : `/${item.imageURL.replace(/^\/+/, "").replace(/\\/g, "/")}`
+              }
               alt={item.title}
-              className="w-24 h-24 shrink-0 rounded-xl object-cover shadow"
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
+              className="w-24 h-24 shrink-0 rounded-2xl object-cover shadow-sm bg-gray-100"
             />
           ) : (
             <div
-              className={`w-24 h-24 shrink-0 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white text-4xl shadow`}
+              className={`w-24 h-24 shrink-0 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white text-4xl shadow-sm`}
             >
               {emoji}
             </div>
