@@ -147,7 +147,7 @@ const Home = () => {
           </h1>
 
           <p className="text-white/60 text-sm md:text-base max-w-lg leading-relaxed mb-8">
-            BackToYou uses AI matching, real-time chat, email alerts, and location maps
+            BackToYou uses AI matching, real-time chat,
             to reconnect you with your lost items — fast.
           </p>
 
@@ -168,8 +168,7 @@ const Home = () => {
             {[
               { emoji: "🤖", title: "AI Matching",     desc: "Smart description & image match" },
               { emoji: "💬", title: "Real-time Chat",  desc: "Talk to finder instantly"        },
-              { emoji: "📧", title: "Email Alerts",    desc: "Get notified immediately"        },
-              { emoji: "🗺️", title: "Location Maps",   desc: "Find where items were found"     },
+            
             ].map(({ emoji, title, desc }) => (
               <div
                 key={title}
