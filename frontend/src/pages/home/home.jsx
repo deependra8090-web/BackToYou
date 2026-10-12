@@ -172,7 +172,7 @@ const Home = () => {
             ].map(({ emoji, title, desc }) => (
               <div
                 key={title}
-                className="bg-white/10 border border-white/15 backdrop-blur-sm rounded-2xl px-4 py-3 text-left hover:bg-white/15 transition"
+                className="bg-white/10 border border-white/15 backdrop-blur-sm rounded-2xl px-4 py-3 text-center hover:bg-white/15 transition"
               >
                 <span className="text-xl">{emoji}</span>
                 <p className="text-white font-bold text-sm mt-1">{title}</p>
