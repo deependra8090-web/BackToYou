@@ -164,7 +164,7 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl">
+          <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto">
             {[
               { emoji: "🤖", title: "AI Matching",     desc: "Smart description & image match" },
               { emoji: "💬", title: "Real-time Chat",  desc: "Talk to finder instantly"        },
