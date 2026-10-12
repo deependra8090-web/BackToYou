@@ -9,18 +9,12 @@ import Cookies from "js-cookie";
 import { Eye, EyeOff, Lock, Mail, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 
 const BackToYouLogo = () => (
-  <svg width="36" height="36" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="14" cy="14" r="13" fill="url(#lg_login)" />
-    <path d="M9 14 C9 10.5 11.5 8 15 8 C18.5 8 21 10.5 21 14" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none"/>
-    <path d="M6.5 11.5 L9 14 L11.5 11.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    <circle cx="14" cy="19" r="2.5" fill="white" />
-    <defs>
-      <linearGradient id="lg_login" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#6366f1" />
-        <stop offset="1" stopColor="#a855f7" />
-      </linearGradient>
-    </defs>
-  </svg>
+  <img
+    src="/logo.png"
+    alt="BackToYou Logo"
+    width={36}
+    height={36}
+  />
 );
 
 export default function Login() {
